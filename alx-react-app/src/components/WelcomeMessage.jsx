@@ -1,4 +1,4 @@
-// File: src/components/WelcomeMessage.js
+// File: src/components/WelcomeMessage.jsx
 function WelcomeMessage() {
 return (
 <div>
