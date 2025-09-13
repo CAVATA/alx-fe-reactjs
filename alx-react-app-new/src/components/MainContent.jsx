@@ -1,4 +1,4 @@
-
+    import React from "react";
 
 export default function MainContent({ children }) {
   const mainStyle = {
