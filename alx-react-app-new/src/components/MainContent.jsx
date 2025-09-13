@@ -1,31 +1,18 @@
-﻿// src/components/MainContent.jsx
-import React from 'react';
 
-const MainContent = ({ children }) => {
+
+export default function MainContent({ children }) {
   const mainStyle = {
-    padding: '24px',
-    maxWidth: '900px',
-    margin: '20px auto',
-    fontFamily: 'Arial, sans-serif',
-    color: '#222'
+    padding: "22px 12px",
+    minHeight: "60vh",
+    background: "linear-gradient(180deg, #fafafa 0%, #ffffff 100%)"
   };
-
-  const sectionStyle = {
-    backgroundColor: '#fbfcfe',
-    padding: '18px',
-    borderRadius: '8px',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
-  };
+  const inner = { maxWidth: "980px", margin: "0 auto" };
 
   return (
     <main style={mainStyle}>
-      <section style={sectionStyle}>
-        <h2 style={{ marginTop: 0 }}>Overview</h2>
-        <p>This area shows the main content and any child components (like the user profile).</p>
+      <section style={inner}>
         {children}
       </section>
     </main>
   );
-};
-
-export default MainContent;
+}

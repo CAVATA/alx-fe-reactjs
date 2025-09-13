@@ -1,23 +1,18 @@
-﻿// src/components/Footer.jsx
-import React from 'react';
 
-const Footer = () => {
+
+export default function Footer() {
   const footerStyle = {
-    textAlign: 'center',
-    padding: '14px 0',
-    backgroundColor: '#f1f5f9',
-    color: '#333',
-    marginTop: '26px',
-    borderTop: '1px solid #e2e8f0'
+    backgroundColor: "#f6f8fb",
+    color: "#333",
+    padding: "12px",
+    textAlign: "center",
+    borderTop: "1px solid #e6e9ef",
+    marginTop: "18px"
   };
 
   return (
     <footer style={footerStyle}>
-      <p style={{ margin: 0, fontSize: '0.95rem' }}>
-        © {new Date().getFullYear()} My Favorite Cities — Built with React
-      </p>
+      <small>© {new Date().getFullYear()} My App. All rights reserved.</small>
     </footer>
   );
-};
-
-export default Footer;
+}

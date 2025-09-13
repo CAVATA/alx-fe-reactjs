@@ -1,26 +1,20 @@
-﻿// src/components/Header.jsx
-import React from 'react';
+import React from "react";
 
-const Header = () => {
+export default function Header() {
   const headerStyle = {
-    backgroundColor: 'navy',
-    color: 'white',
-    textAlign: 'center',
-    padding: '20px 0',
-    borderBottom: '4px solid #001f3f'
-  };
-
-  const titleStyle = {
-    margin: 0,
-    fontSize: '1.8rem',
-    letterSpacing: '1px'
+    backgroundColor: "navy",
+    color: "white",
+    textAlign: "center",
+    padding: "20px 12px",
+    borderRadius: "6px"
   };
 
   return (
     <header style={headerStyle}>
-      <h1 style={titleStyle}>My Favorite Cities</h1>
+      <h1 style={{ margin: 0, fontSize: "1.8rem" }}>My Favorite Cities</h1>
+      <p style={{ margin: "6px 0 0", fontSize: "0.9rem", opacity: 0.9 }}>
+        A small list of places I love
+      </p>
     </header>
   );
-};
-
-export default Header;
+}
