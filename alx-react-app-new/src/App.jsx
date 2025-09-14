@@ -1,18 +1,11 @@
-
-import Header from "./components/Header";
-import MainContent from "./components/MainContent";
-import UserProfile from "./components/UserProfile";
-import Footer from "./components/Footer";
+import React from 'react';
+import Counter from './components/Counter';
 
 function App() {
   return (
-    <div>
-      <Header />
-      <MainContent>
-        <UserProfile name="Jane Kavata Kyalo" age={28} bio="Loves coding, soaps and design." />
-        {/* Add more content here */}
-      </MainContent>
-      <Footer />
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h1>My Counter App</h1>
+      <Counter />
     </div>
   );
 }
