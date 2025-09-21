@@ -2,6 +2,7 @@ import { useState } from "react";
 import SearchBar from "./components/SearchBar";
 import UserList from "./components/UserList";
 import { searchUsers } from "./services/github";
+import Search from "./components/Search";
 
 export default function App() {
   const [users, setUsers] = useState([]);
