@@ -2,14 +2,17 @@
 import { useNavigate } from "react-router-dom";
 
 export default function DeleteRecipeButton({ id }) {
-  const deleteRecipe = useRecipeStore((s) => s.deleteRecipe);
+  const deleteRecipe = useRecipeStore(state => state.deleteRecipe);
   const navigate = useNavigate();
 
-  const handleDelete = () => {
-    if (!confirm("Delete this recipe?")) return;
-    deleteRecipe(id);
-    navigate("/");
-  };
-
-  return <button onClick={handleDelete}>Delete</button>;
+  return (
+    <button
+      onClick={() => {
+        deleteRecipe(id);
+        navigate("/");
+      }}
+    >
+      Delete Recipe
+    </button>
+  );
 }
