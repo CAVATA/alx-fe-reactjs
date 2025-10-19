@@ -1,88 +1,105 @@
 
-import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import React, { useState } from "react";
 
 /**
- * Formik form implementation.
- * Filename: formikForm.js (as requested)
+ * Controlled Registration Form
+ * - uses useState
+ * - explicit value bindings for username, email, password
+ * - basic validation
+ * - posts to mock API
  */
 
-const validationSchema = Yup.object({
-  username: Yup.string().trim().required("Username is required."),
-  email: Yup.string().email("Invalid email address").required("Email is required."),
-  password: Yup.string().min(6, "Password must be at least 6 characters.").required("Password is required.")
-});
+const RegistrationForm = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState("");
 
-const initialValues = {
-  username: "",
-  email: "",
-  password: ""
-};
+  const validate = () => {
+    const errs = {};
+    if (!username.trim()) errs.username = "Username is required.";
+    if (!email.trim()) errs.email = "Email is required.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = "Enter a valid email.";
+    if (!password) errs.password = "Password is required.";
+    else if (password.length < 6) errs.password = "Password must be at least 6 characters.";
+    return errs;
+  };
 
-const FormikForm = () => {
-  const handleSubmit = async (values, { setSubmitting, resetForm, setStatus }) => {
-    setStatus(null);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("");
+    const validationErrors = validate();
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) return;
+
     try {
       const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values)
+        body: JSON.stringify({ username, email, password })
       });
       if (!res.ok) throw new Error("Network response not ok");
       const data = await res.json();
-      setStatus({ success: `Registration successful (mock). Response id: ${data.id}` });
-      resetForm();
+      setStatus("Registration successful (mock). Response id: " + data.id);
+      // reset fields
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setErrors({});
     } catch (err) {
-      setStatus({ error: `Registration failed. ${err.message}` });
-    } finally {
-      setSubmitting(false);
+      setStatus("Registration failed. " + err.message);
     }
   };
 
   return (
     <div style={{ maxWidth: 420, margin: "0 auto" }}>
-      <h2>Formik Registration Form</h2>
+      <h2>Controlled Registration Form</h2>
+      <form onSubmit={handleSubmit} noValidate>
+        <div style={{ marginBottom: 12 }}>
+          <label style={{ display: "block", fontWeight: 600 }}>Username</label>
+          <input
+            name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Enter username"
+            style={{ width: "100%", padding: 8 }}
+          />
+          {errors.username && <div style={{ color: "red", marginTop: 4 }}>{errors.username}</div>}
+        </div>
 
-      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-        {({ isSubmitting, status }) => (
-          <Form noValidate>
-            <div style={{ marginBottom: 12 }}>
-              <label style={{ display: "block", fontWeight: 600 }}>Username</label>
-              <Field name="username" placeholder="Enter username" style={{ width: "100%", padding: 8 }} />
-              <div style={{ color: "red", marginTop: 4 }}>
-                <ErrorMessage name="username" />
-              </div>
-            </div>
+        <div style={{ marginBottom: 12 }}>
+          <label style={{ display: "block", fontWeight: 600 }}>Email</label>
+          <input
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            style={{ width: "100%", padding: 8 }}
+          />
+          {errors.email && <div style={{ color: "red", marginTop: 4 }}>{errors.email}</div>}
+        </div>
 
-            <div style={{ marginBottom: 12 }}>
-              <label style={{ display: "block", fontWeight: 600 }}>Email</label>
-              <Field name="email" placeholder="you@example.com" />
-              <div style={{ color: "red", marginTop: 4 }}>
-                <ErrorMessage name="email" />
-              </div>
-            </div>
+        <div style={{ marginBottom: 12 }}>
+          <label style={{ display: "block", fontWeight: 600 }}>Password</label>
+          <input
+            name="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="At least 6 characters"
+            style={{ width: "100%", padding: 8 }}
+          />
+          {errors.password && <div style={{ color: "red", marginTop: 4 }}>{errors.password}</div>}
+        </div>
 
-            <div style={{ marginBottom: 12 }}>
-              <label style={{ display: "block", fontWeight: 600 }}>Password</label>
-              <Field name="password" type="password" placeholder="At least 6 characters" />
-              <div style={{ color: "red", marginTop: 4 }}>
-                <ErrorMessage name="password" />
-              </div>
-            </div>
+        <button type="submit" style={{ padding: "8px 16px" }}>Register</button>
+      </form>
 
-            <button type="submit" disabled={isSubmitting} style={{ padding: "8px 16px" }}>
-              {isSubmitting ? "Submitting..." : "Register"}
-            </button>
-
-            {status && status.success && <div style={{ marginTop: 12, color: "green" }}>{status.success}</div>}
-            {status && status.error && <div style={{ marginTop: 12, color: "red" }}>{status.error}</div>}
-          </Form>
-        )}
-      </Formik>
+      {status && <div style={{ marginTop: 12, fontWeight: 600 }}>{status}</div>}
     </div>
   );
 };
 
-export default FormikForm;
+export default RegistrationForm;
 
