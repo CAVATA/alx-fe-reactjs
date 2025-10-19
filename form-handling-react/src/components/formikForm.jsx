@@ -1,10 +1,11 @@
-﻿import React from "react";
+﻿
+import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 /**
  * Formik form implementation.
- * Filename: formikForm.js (as requested)
+ * Filename: formikForm.jsx
  */
 
 const validationSchema = Yup.object({
@@ -84,3 +85,4 @@ const FormikForm = () => {
 };
 
 export default FormikForm;
+
